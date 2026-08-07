@@ -1,4 +1,4 @@
-.error-banner{
+.error-banner {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -7,94 +7,19 @@
   border-radius: 10px;
   padding: 12px 14px;
 }
-
 .error-banner p {
   color: #d70015;
   font-size: 13px;
   margin: 0;
 }
-
 .error-banner span {
   color: #d70015;
   font-size: 16px;
-
 }
 
-.login-header {
-  text-align: center;
-}
-
-.login-header h2 {
-  font-size: 26px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.login-header p {
-  font-size: 14px;
-  color: #6c6c76;
-  margin: 8px 0 0 0;
-}
-
-
-.login-container {
-max-width: 400px;
-margin: 80px auto;   
-padding: 32px;
-display: flex;
-flex-direction: column;
-gap: 16px;
-direction: rtl;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;}
-
-  .form-group input{
-padding: 15px 16px;
-gap: 8px;
-border: none;
-border-radius: 12px;
-background: #F4F5F8;
-  box-sizing: border-box;
-font-size: 14px;
-font-family: Cairo;
-
-  }  
-  .forgot-link{
-    color: #2F6FED;
-font-family: Cairo;
-font-size: 12px;
-font-weight: 600;
-  }
-
- .login-btn {
-  display: flex;
-  padding: 16px 0;
-  justify-content: center;
-  align-items: center;
-  border-radius: 14px;
-  background: #2F6FED;
-  border: none;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  width: 100%;
-  font-family: 'Cairo', sans-serif;
-
-}
-.signup-text {
-  text-align: center;
-  font-size: 14px;
-  color: #6c6c76;
-  margin: 0;
-}
-
-.signup-text span {
+.forgot-link {
   color: #2F6FED;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
   font-weight: 600;
-  cursor: pointer;
-  margin-right: 4px;
 }

@@ -4,3 +4,116 @@ body {
   font-family: 'Cairo', sans-serif;
   margin: 0;
 }
+/* ===== ستايل مشترك بين شاشات الحساب ===== */
+.auth-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  direction: rtl;
+}
+
+.auth-header {
+  text-align: center;
+}
+.auth-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+}
+.auth-header p {
+  font-size: 14px;
+  color: #6c6c76;
+  margin: 8px 0 0 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-group input {
+  padding: 15px 16px;
+  border-radius: 12px;
+  background: #F4F5F8;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-family: 'Cairo', sans-serif;
+  border: 1px solid transparent;
+
+}
+
+.auth-btn {
+  display: flex;
+  padding: 16px 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  background: #2F6FED;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Cairo', sans-serif;
+}
+
+.auth-text {
+  text-align: center;
+  font-size: 14px;
+  color: #6c6c76;
+  margin: 0;
+}
+.auth-text span {
+  color: #2F6FED;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 4px;
+}
+.form-group input:focus {
+  outline: none;
+  border: 1px solid #2F6FED;
+}
+/* ===== مشترك: شاشات الرمز والاستعادة ===== */
+.verify-back { display: flex; justify-content: flex-start; }
+.back-btn {
+  background: none; border: none;
+  font-size: 22px; color: #1c1c1e;
+  cursor: pointer; padding: 4px;
+}
+
+.verify-email {
+  display: block; color: #2F6FED;
+  font-weight: 600; font-size: 14px; margin-top: 4px;
+}
+
+.code-boxes { display: flex; justify-content: center; gap: 10px; direction: ltr; }
+.code-box {
+  width: 46px; height: 56px;
+  border: 1.5px solid #E5E5EA; border-radius: 12px;
+  background: #F4F5F8; text-align: center;
+  font-size: 20px; font-family: 'Cairo', sans-serif;
+}
+.code-box:focus { outline: none; border-color: #2F6FED; }
+
+.resend { text-align: center; }
+.resend p { font-size: 14px; color: #1c1c1e; margin: 0 0 4px 0; }
+.resend span { font-size: 13px; color: #6c6c76; }
+
+/* ===== أيقونة نجاح: شاشة تم التغيير ===== */
+.success-icon {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: #E6F7EC;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+}
+.success-icon span { color: #34C759; font-size: 44px; }
+.helper-text {
+  font-size: 12px;
+  color: #6c6c76;
+  margin-top: 2px;
+}
