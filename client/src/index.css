@@ -117,3 +117,34 @@ body {
   color: #6c6c76;
   margin-top: 2px;
 }
+
+body {
+  margin: 0;
+  background: #F0F2F5;   
+  font-family: 'Cairo', sans-serif;
+}
+
+.auth-container {
+  background: #ffffff;    
+  border-radius: 16px;    
+}
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-wrapper input {
+  width: 100%;
+  padding-left: 44px;
+}
+.eye-btn {
+  position: absolute;
+  left: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #6c6c76;
+}
