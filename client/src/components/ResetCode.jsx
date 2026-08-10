@@ -12,8 +12,7 @@ const ResetCode = () => {
         <input className="code-box" maxLength="1" />
         <input className="code-box" maxLength="1" />
         <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
+       
       </div>
       <div className="resend">
         <p>لم يصلك الرمز؟</p>

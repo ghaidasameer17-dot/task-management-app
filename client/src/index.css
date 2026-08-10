@@ -103,6 +103,24 @@ body {
 .resend p { font-size: 14px; color: #1c1c1e; margin: 0 0 4px 0; }
 .resend span { font-size: 13px; color: #6c6c76; }
 
+.code-input {
+  width: 160px;
+  margin: 0 auto;
+  padding: 14px;
+  text-align: center;
+  font-size: 24px;
+  letter-spacing: 12px;
+  border: 1.5px solid #E5E5EA;
+  border-radius: 12px;
+  background: #F4F5F8;
+  font-family: 'Cairo', sans-serif;
+  direction: ltr;
+}
+.code-input:focus {
+  outline: none;
+  border-color: #2F6FED;
+}
+
 /* ===== أيقونة نجاح: شاشة تم التغيير ===== */
 .success-icon {
   width: 96px; height: 96px;
@@ -147,4 +165,19 @@ body {
   display: flex;
   align-items: center;
   color: #6c6c76;
+}
+/* حقل فيه خطأ: حدود حمراء وخلفية وردية خفيفة */
+.form-group input.input-error {
+  border: 1px solid #d70015;
+  background: #fff5f5;
+}
+
+/* رسالة الخطأ تحت الحقل */
+.error-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #d70015;
+  font-size: 12px;
+  margin-top: 2px;
 }

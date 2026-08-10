@@ -1,5 +1,7 @@
+import { useState } from 'react';
 
 const EmailVerification = () => {
+  const [code, setCode] = useState('');
   return (
     <div className="auth-container">
       <div className="verify-back">
@@ -13,12 +15,16 @@ const EmailVerification = () => {
       </div>
 
       <div className="code-boxes">
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
+       <input
+  className="code-input"
+  type="text"
+  inputMode="numeric"
+  maxLength="4"
+  value={code}
+  onChange={(e) => setCode(e.target.value)}
+  placeholder="____"
+/>
+       
       </div>
 
       <div className="resend">
