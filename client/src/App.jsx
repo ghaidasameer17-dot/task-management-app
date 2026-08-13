@@ -5,6 +5,8 @@ import ForgotPassword from "./components/ForgotPassword"
 import ResetCode from "./components/ResetCode"
 import NewPassword from "./components/NewPassword"
 import PasswordChanged from "./components/PasswordChanged"
+import TaskList from "./components/TaskList";
+
 function App() {
   return (
     <div>
@@ -15,6 +17,7 @@ function App() {
       <ResetCode/>
       <NewPassword/>
       <PasswordChanged/>
+      <TaskList/>
     </div>
   );
 }

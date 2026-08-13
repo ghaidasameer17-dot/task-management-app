@@ -1,4 +1,7 @@
+import { useState } from 'react';
+
 const ResetCode = () => {
+  const [code, setCode] = useState('');
   return (
     <div className="auth-container">
       <div className="verify-back"><button className="back-btn">→</button></div>
@@ -8,10 +11,15 @@ const ResetCode = () => {
         <span className="verify-email">ghaida@example.com</span>
       </div>
       <div className="code-boxes">
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
-        <input className="code-box" maxLength="1" />
+       <input
+  className="code-input"
+  type="text"
+  inputMode="numeric"
+  maxLength="4"
+  value={code}
+  onChange={(e) => setCode(e.target.value)}
+  placeholder="____"
+/>
        
       </div>
       <div className="resend">

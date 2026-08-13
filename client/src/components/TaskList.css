@@ -1,0 +1,59 @@
+.task-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row-reverse; /* عشان الدائرة تصير على أقصى اليسار في RTL */
+  padding: 8px 0;
+}
+
+/* دائرة الإكمال */
+.task-check {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #C7C7CC;
+  border-radius: 50%;
+  flex-shrink: 0;      /* ما تنكمش لو ضاقت المساحة */
+  cursor: pointer;
+}
+
+/* مؤشر الأولوية */
+.task-priority {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.priority-high { color: #d70015; }   /* عاجل - أحمر */
+
+/* اسم المهمة */
+.task-title {
+  flex: 1;             /* ياخذ المساحة المتبقية فيدفع الوسوم للطرف */
+  font-size: 15px;
+  color: #1c1c1e;
+}
+
+/* وسم الفئة */
+.task-cat {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #E9F0FF;
+  color: #2F6FED;
+  flex-shrink: 0;
+}
+
+/* وسم التاريخ */
+.task-date {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #F4F5F8;
+  color: #6c6c76;
+  flex-shrink: 0;
+}
