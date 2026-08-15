@@ -1,24 +1,25 @@
+import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import EmailVerification from "./components/EmailVerification"
-import ForgotPassword from "./components/ForgotPassword"
-import ResetCode from "./components/ResetCode"
-import NewPassword from "./components/NewPassword"
-import PasswordChanged from "./components/PasswordChanged"
+import EmailVerification from "./components/EmailVerification";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetCode from "./components/ResetCode";
+import NewPassword from "./components/NewPassword";
+import PasswordChanged from "./components/PasswordChanged";
 import TaskList from "./components/TaskList";
 
 function App() {
   return (
-    <div>
-      <Login />
-      <Signup />
-      <EmailVerification/>
-      <ForgotPassword/>
-      <ResetCode/>
-      <NewPassword/>
-      <PasswordChanged/>
-      <TaskList/>
-    </div>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/verify" element={<EmailVerification />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-code" element={<ResetCode />} />
+      <Route path="/new-password" element={<NewPassword />} />
+      <Route path="/password-changed" element={<PasswordChanged />} />
+      <Route path="/tasks" element={<TaskList />} />
+    </Routes>
   );
 }
 

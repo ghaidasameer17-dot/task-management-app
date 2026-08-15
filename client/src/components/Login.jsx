@@ -1,6 +1,7 @@
 import "./Login.css";
 import { useState } from "react";
 import { Eye, EyeOff } from 'lucide-react';
+import { Link } from "react-router-dom";
 const Login = () => {
   const [ShowError, setShowError]=useState(false);
 const [email, setEmail] = useState('');
@@ -62,13 +63,13 @@ const [showPassword, setShowPassword] = useState(false);
   </div>                                
 </div>
 
-      <a href="#" className="forgot-link">
-        نسيت كلمة المرور؟
-      </a>
+      <Link to="/forgot-password" className="forgot-link">
+  نسيت كلمة المرور؟
+</Link>
       <button className="auth-btn" onClick={handleLogin}>تسجيل الدخول</button>
       <p className="signup-text">
-        ليس لديك حساب؟<span>انشاء حساب</span>
-      </p>
+  ليس لديك حساب؟<Link to="/signup">انشاء حساب</Link>
+</p>
     </div>
   );
 };
