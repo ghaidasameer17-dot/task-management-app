@@ -7,6 +7,7 @@ import ResetCode from "./components/ResetCode";
 import NewPassword from "./components/NewPassword";
 import PasswordChanged from "./components/PasswordChanged";
 import TaskList from "./components/TaskList";
+import AccountVerified from "./components/AccountVerified";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/new-password" element={<NewPassword />} />
       <Route path="/password-changed" element={<PasswordChanged />} />
       <Route path="/tasks" element={<TaskList />} />
+      <Route path="/account-verified" element={<AccountVerified />} />
     </Routes>
   );
 }
