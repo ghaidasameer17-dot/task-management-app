@@ -115,6 +115,20 @@ export const verifyEmail = async (req, res) => {
        WHERE email = $1`,
       [email]
     );
+    const systemCategories = [
+      { name: 'عمل', color: '#2F6FED' },
+      { name: 'شخصي', color: '#8B5CF6' },
+      { name: 'دراسة', color: '#22C55E' },
+      { name: 'منزل', color: '#F59E0B' },
+    ];
+
+    for (const cat of systemCategories) {
+      await pool.query(
+        `INSERT INTO categories (name, color, is_system, user_id)
+         VALUES ($1, $2, TRUE, $3)`,
+        [cat.name, cat.color, user.id]
+      );
+    }
 
     // 7. الرد بنجاح
     res.status(200).json({ message: "تم تفعيل الحساب بنجاح" });

@@ -3,6 +3,7 @@ import cors from "cors";
 import pool from "./src/config/db.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import taskRoutes from "./src/routes/taskRoutes.js";
+import categoryRoutes from "./src/routes/categoryRoutes.js";
 
 const app = express();
 const PORT = 5000;
@@ -14,6 +15,7 @@ app.use(express.json());      // يقرأ بيانات JSON من الطلبات
 // المسارات
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/", (req, res) => {
   res.send("Task Manager API is running ✅");
