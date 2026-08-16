@@ -2,16 +2,14 @@ import { useState, useEffect } from 'react';
 import './TaskList.css';
 import { getTasks, createTask, toggleTask, deleteTask } from '../api/tasks';
 
+
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [newTitle, setNewTitle] = useState('');
   const [error, setError] = useState('');
-
+const [priority, setPriority] = useState(null);        // الأولوية المختارة
+const [showPriority, setShowPriority] = useState(false); // إظهار/إخفاء القائمة
   // جلب المهام عند فتح الشاشة
-  useEffect(() => {
-    loadTasks();
-  }, []);
-
   const loadTasks = async () => {
     try {
       const data = await getTasks();
@@ -21,12 +19,26 @@ const TaskList = () => {
     }
   };
 
+  // جلب المهام عند فتح الشاشة
+ // جلب المهام عند فتح الشاشة
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const data = await getTasks();
+        setTasks(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchTasks();
+  }, []);
   // إضافة مهمة
   const handleAdd = async () => {
     if (!newTitle.trim()) return;
     try {
-      await createTask({ title: newTitle });
+      await createTask({ title: newTitle, priority });
       setNewTitle('');
+      setPriority(null);
       loadTasks(); // نعيد الجلب لتحديث القائمة
     } catch (err) {
       setError(err.message);
@@ -104,6 +116,20 @@ const TaskList = () => {
     return '';
   };
 
+  // اسم الأولوية للعرض
+const priorityLabel = (p) => {
+  if (p === 'urgent') return 'عاجل';
+  if (p === 'medium') return 'متوسط';
+  if (p === 'not_urgent') return 'غير عاجل';
+  return 'أولوية';
+};
+
+// اختيار أولوية وإغلاق القائمة
+const selectPriority = (p) => {
+  setPriority(p);
+  setShowPriority(false);
+};
+
   return (
     <div className="task-container">
       {/* الهيدر */}
@@ -161,16 +187,50 @@ const TaskList = () => {
       )}
 
       {/* حقل الإضافة السريعة */}
-      <div className="quick-add">
-        <button className="quick-add-btn" onClick={handleAdd}>+</button>
-        <input
-          type="text"
-          placeholder="أريد أن..."
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
-        />
-      </div>
+      {/* منطقة الإضافة السريعة */}
+<div className="quick-add-area">
+  {/* الشرائح */}
+  <div className="chips-row">
+    <div className="chip-wrapper">
+      <button
+        className={`chip ${priority ? 'chip-active' : ''}`}
+        onClick={() => setShowPriority(!showPriority)}
+      >
+        ▲ {priority ? priorityLabel(priority) : 'أولوية'}
+      </button>
+
+      {showPriority && (
+        <div className="popup">
+          <div className="popup-title">الأولوية</div>
+          <div className="popup-item" onClick={() => selectPriority('urgent')}>
+            <span className="priority-high">▲</span> عاجل
+          </div>
+          <div className="popup-item" onClick={() => selectPriority('medium')}>
+            <span className="priority-mid">▬</span> متوسط
+          </div>
+          <div className="popup-item" onClick={() => selectPriority('not_urgent')}>
+            <span className="priority-low">▼</span> غير عاجل
+          </div>
+          <div className="popup-item" onClick={() => selectPriority(null)}>
+            بدون أولوية
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* حقل الإدخال */}
+  <div className="quick-add">
+    <button className="quick-add-btn" onClick={handleAdd}>+</button>
+    <input
+      type="text"
+      placeholder="أريد أن..."
+      value={newTitle}
+      onChange={(e) => setNewTitle(e.target.value)}
+      onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
+    />
+  </div>
+</div>
     </div>
   );
 };

@@ -120,3 +120,55 @@
 }
 
 .task-error { color: #d70015; font-size: 14px; }
+/* منطقة الإضافة */
+.quick-add-area { margin-top: 24px; }
+
+/* شريط الشرائح */
+.chips-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-direction: row-reverse;
+}
+.chip-wrapper { position: relative; }
+.chip {
+  border: 1px solid #E5E5EA;
+  background: #fff;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  color: #3c3c43;
+  cursor: pointer;
+}
+.chip-active { border-color: #2F6FED; color: #2F6FED; }
+
+/* القائمة المنبثقة */
+.popup {
+  position: absolute;
+  bottom: 44px;
+  right: 0;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+  padding: 8px;
+  min-width: 180px;
+  z-index: 10;
+}
+.popup-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6c6c76;
+  padding: 6px 10px;
+}
+.popup-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-direction: row-reverse;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.popup-item:hover { background: #F4F5F8; }
