@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Cairo', sans-serif;
   margin: 0;
@@ -102,6 +106,18 @@ body {
 .resend { text-align: center; }
 .resend p { font-size: 14px; color: #1c1c1e; margin: 0 0 4px 0; }
 .resend span { font-size: 13px; color: #6c6c76; }
+.resend-active {
+  color: #2F6FED !important;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 8px;
+}
+.resend-sent { color: #22C55E !important; font-weight: 700; }
+.resend-error { color: #d70015; font-size: 12px; margin-top: 4px; }
 
 .code-input {
   width: 160px;

@@ -21,6 +21,7 @@ const request = async (endpoint, data) => {
 // دوال المصادقة
 export const registerUser = (data) => request("/register", data);
 export const verifyEmail = (data) => request("/verify", data);
+export const resendVerification = (data) => request("/resend-verification", data);
 export const loginUser = (data) => request("/login", data);
 export const forgotPassword = (data) => request("/forgot-password", data);
 export const verifyResetCode = (data) => request("/verify-reset-code", data);

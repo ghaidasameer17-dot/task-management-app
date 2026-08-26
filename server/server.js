@@ -4,6 +4,7 @@ import pool from "./src/config/db.js";
 import authRoutes from "./src/routes/authRoutes.js";
 import taskRoutes from "./src/routes/taskRoutes.js";
 import categoryRoutes from "./src/routes/categoryRoutes.js";
+import { startReminderJob } from "./src/jobs/reminderJob.js";
 
 const app = express();
 const PORT = 5000;
@@ -23,4 +24,5 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  startReminderJob();
 });

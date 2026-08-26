@@ -8,8 +8,9 @@ const authHeaders = () => ({
 
 export const getTasks = async () => {
   const res = await fetch(BASE_URL, { headers: authHeaders() });
-  if (!res.ok) throw new Error("فشل جلب المهام");
-  return res.json();
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || "فشل جلب المهام");
+  return result;
 };
 
 export const createTask = async (data) => {
@@ -18,8 +19,9 @@ export const createTask = async (data) => {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error("فشل إضافة المهمة");
-  return res.json();
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || "فشل إضافة المهمة");
+  return result;
 };
 
 export const toggleTask = async (id) => {
@@ -27,8 +29,9 @@ export const toggleTask = async (id) => {
     method: "PATCH",
     headers: authHeaders(),
   });
-  if (!res.ok) throw new Error("فشل تحديث المهمة");
-  return res.json();
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || "فشل تحديث المهمة");
+  return result;
 };
 
 export const deleteTask = async (id) => {
@@ -36,6 +39,28 @@ export const deleteTask = async (id) => {
     method: "DELETE",
     headers: authHeaders(),
   });
-  if (!res.ok) throw new Error("فشل حذف المهمة");
-  return res.json();
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || "فشل حذف المهمة");
+  return result;
+};
+
+export const clearArchive = async () => {
+  const res = await fetch(`${BASE_URL}/archive/clear`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || "فشل إفراغ الأرشيف");
+  return result;
+};
+
+export const updateTask = async (id, data) => {
+  const res = await fetch(`${BASE_URL}/${id}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || "فشل تعديل المهمة");
+  return result;
 };

@@ -137,6 +137,42 @@ export const verifyEmail = async (req, res) => {
     res.status(500).json({ message: "حدث خطأ في الخادم" });
   }
 };
+// إعادة إرسال رمز تفعيل الحساب
+export const resendVerification = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "البريد الإلكتروني مطلوب" });
+    }
+
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "المستخدم غير موجود" });
+    }
+
+    const user = result.rows[0];
+    if (user.is_verified) {
+      return res.status(400).json({ message: "الحساب مفعّل بالفعل" });
+    }
+
+    const code = generateCode();
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+    await pool.query(
+      "UPDATE users SET verification_code = $1, code_expires_at = $2 WHERE email = $3",
+      [code, expiresAt, email]
+    );
+
+    await sendVerificationCode(email, code);
+
+    res.status(200).json({ message: "تم إرسال رمز تفعيل جديد" });
+  } catch (err) {
+    console.error("Resend verification error:", err.message);
+    res.status(500).json({ message: "حدث خطأ في الخادم" });
+  }
+};
+
 // تسجيل الدخول
 export const login = async (req, res) => {
   try {

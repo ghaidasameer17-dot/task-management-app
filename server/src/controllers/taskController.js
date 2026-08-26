@@ -1,4 +1,5 @@
 import pool from "../config/db.js";
+import { computeReminderAt } from "../utils/reminder.js";
 
 // عرض كل مهام المستخدم
 export const getTasks = async (req, res) => {
@@ -24,9 +25,11 @@ export const createTask = async (req, res) => {
       return res.status(400).json({ message: "اسم المهمة مطلوب" });
     }
 
+    const reminderAt = computeReminderAt(due_date, due_time);
+
     const result = await pool.query(
-      `INSERT INTO tasks (title, due_date, due_time, priority, category_id, user_id)
-       VALUES ($1, $2, $3, $4, $5, $6)
+      `INSERT INTO tasks (title, due_date, due_time, priority, category_id, user_id, reminder_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING *`,
       [
         title,
@@ -35,6 +38,7 @@ export const createTask = async (req, res) => {
         priority || null,
         category_id || null,
         req.userId,
+        reminderAt,
       ]
     );
 
@@ -49,13 +53,16 @@ export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, due_date, due_time, priority, category_id } = req.body;
+    const reminderAt = computeReminderAt(due_date, due_time);
 
     const result = await pool.query(
       `UPDATE tasks
-       SET title = $1, due_date = $2, due_time = $3, priority = $4, category_id = $5
-       WHERE id = $6 AND user_id = $7
+       SET title = $1, due_date = $2, due_time = $3, priority = $4, category_id = $5,
+           reminder_at = $6,
+           reminder_sent = CASE WHEN reminder_at IS DISTINCT FROM $6 THEN FALSE ELSE reminder_sent END
+       WHERE id = $7 AND user_id = $8
        RETURNING *`,
-      [title, due_date || null, due_time || null, priority || null, category_id || null, id, req.userId]
+      [title, due_date || null, due_time || null, priority || null, category_id || null, reminderAt, id, req.userId]
     );
 
     if (result.rows.length === 0) {
@@ -65,6 +72,20 @@ export const updateTask = async (req, res) => {
     res.status(200).json(result.rows[0]);
   } catch (err) {
     console.error("Update task error:", err.message);
+    res.status(500).json({ message: "حدث خطأ في الخادم" });
+  }
+};
+
+// إفراغ الأرشيف: حذف كل المهام المكتملة نهائيًا
+export const clearArchive = async (req, res) => {
+  try {
+    const result = await pool.query(
+      `DELETE FROM tasks WHERE user_id = $1 AND is_completed = TRUE RETURNING id`,
+      [req.userId]
+    );
+    res.status(200).json({ message: "تم إفراغ الأرشيف", count: result.rows.length });
+  } catch (err) {
+    console.error("Clear archive error:", err.message);
     res.status(500).json({ message: "حدث خطأ في الخادم" });
   }
 };

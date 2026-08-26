@@ -9,8 +9,8 @@ CREATE TABLE users (
   email             VARCHAR(255) UNIQUE NOT NULL,
   password          VARCHAR(255) NOT NULL,          -- bcrypt hash
   is_verified       BOOLEAN      NOT NULL DEFAULT FALSE,
-  verification_code VARCHAR(6),                     -- رمز التفعيل/الاستعادة (٤ أرقام حاليًا)
-  code_expires_at   TIMESTAMPTZ,                    -- صلاحية الرمز
+  verification_code VARCHAR(6),                    
+  code_expires_at   TIMESTAMPTZ,                   
   created_at        TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
 
@@ -18,11 +18,11 @@ CREATE TABLE users (
 CREATE TABLE categories (
   id          SERIAL      PRIMARY KEY,
   name        VARCHAR(20) NOT NULL,
-  color       VARCHAR(20) NOT NULL,                 -- قيمة اللون (hex)
-  is_system   BOOLEAN     NOT NULL DEFAULT FALSE,   -- فئة نظام مدمجة؟
+  color       VARCHAR(20) NOT NULL,                 
+  is_system   BOOLEAN     NOT NULL DEFAULT FALSE,   
   user_id     INTEGER     NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE (user_id, name)                            -- FR-41: تفرّد الاسم لكل مستخدم
+  UNIQUE (user_id, name)                            
 );
 
 -- جدول المهام
@@ -33,8 +33,8 @@ CREATE TABLE tasks (
   due_time      TIME,
   priority      VARCHAR(12)  CHECK (priority IN ('urgent', 'medium', 'not_urgent')),
   is_completed  BOOLEAN      NOT NULL DEFAULT FALSE,
-  completed_at  TIMESTAMPTZ,                          -- منه يُشتق المكتمل والأرشيف
-  reminder_at   TIMESTAMPTZ,                          -- وقت التذكير المحسوب (FR-22)
+  completed_at  TIMESTAMPTZ,                          
+  reminder_at   TIMESTAMPTZ,                          
   reminder_sent BOOLEAN      NOT NULL DEFAULT FALSE,
   category_id   INTEGER      REFERENCES categories(id) ON DELETE SET NULL,
   user_id       INTEGER      NOT NULL REFERENCES users(id) ON DELETE CASCADE,

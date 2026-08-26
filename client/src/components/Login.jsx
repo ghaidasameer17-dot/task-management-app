@@ -12,7 +12,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
-    // تحقق محلي: الحقول غير فارغة
     if (!email || !password) {
       setServerError('البريد الإلكتروني أو كلمة المرور غير صحيحة');
       return;

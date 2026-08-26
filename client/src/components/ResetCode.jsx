@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { verifyResetCode } from '../api/auth';
+import { verifyResetCode, forgotPassword } from '../api/auth';
+import ResendCode from './ResendCode';
 
 const ResetCode = () => {
   const navigate = useNavigate();
@@ -9,15 +10,6 @@ const ResetCode = () => {
 
   const [code, setCode] = useState('');
   const [serverError, setServerError] = useState('');
-  const [seconds, setSeconds] = useState(60);
-
-  useEffect(() => {
-    if (seconds === 0) return;
-    const timer = setInterval(() => {
-      setSeconds((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [seconds]);
 
   const handleVerify = async () => {
     if (!code) {
@@ -64,14 +56,7 @@ const ResetCode = () => {
         />
       </div>
 
-      <div className="resend">
-        <p>لم يصلك الرمز؟</p>
-        {seconds > 0 ? (
-          <span>إعادة الإرسال بعد {seconds} ثانية</span>
-        ) : (
-          <span className="resend-active">إعادة الإرسال</span>
-        )}
-      </div>
+      <ResendCode onResend={() => forgotPassword({ email })} />
 
       <button className="auth-btn" onClick={handleVerify}>تأكيد الرمز</button>
     </div>

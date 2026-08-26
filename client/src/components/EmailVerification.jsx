@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { verifyEmail } from '../api/auth';
-import { useState, useEffect } from 'react';
+import { verifyEmail, resendVerification } from '../api/auth';
+import { useState } from 'react';
+import ResendCode from './ResendCode';
 
 const EmailVerification = () => {
   const navigate = useNavigate();
@@ -9,18 +10,6 @@ const EmailVerification = () => {
 
   const [code, setCode] = useState('');
   const [serverError, setServerError] = useState('');
-  const [seconds, setSeconds] = useState(60);
-
-  useEffect(() => {
-  if (seconds === 0) return; // وصل صفر، نوقف
-
-  const timer = setInterval(() => {
-    setSeconds((prev) => prev - 1);
-  }, 1000);
-
-  // تنظيف: نوقف المؤقّت عند إعادة التشغيل أو مغادرة الشاشة
-  return () => clearInterval(timer);
-}, [seconds]);
 
   const handleVerify = async () => {
     if (!code) {
@@ -68,14 +57,7 @@ navigate('/account-verified');
         />
       </div>
 
-      <div className="resend">
-  <p>لم يصلك الرمز؟</p>
-  {seconds > 0 ? (
-    <span>إعادة الإرسال بعد {seconds} ثانية</span>
-  ) : (
-    <span className="resend-active">إعادة الإرسال</span>
-  )}
-</div>
+      <ResendCode onResend={() => resendVerification({ email })} />
       <button className="auth-btn" onClick={handleVerify}>تأكيد</button>
     </div>
   );
