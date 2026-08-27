@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ClipboardList, Check, Plus, Trash2 } from 'lucide-react';
+import { ClipboardList, Check, Plus, Trash2, ChevronDown } from 'lucide-react';
 import './TaskList.css';
 import { getTasks, createTask, toggleTask, deleteTask, updateTask } from '../api/tasks';
 import { getCategories } from '../api/categories';
@@ -34,6 +34,7 @@ const TaskList = () => {
   const [editState, setEditState] = useState(emptyEditState);
   const [deleteTarget, setDeleteTarget] = useState(null); // المهمة المطلوب تأكيد حذفها
   const [quickAddKey, setQuickAddKey] = useState(0);       // لإعادة تصفير شرائح الإضافة السريعة بعد كل إضافة
+  const [showCompleted, setShowCompleted] = useState(false); // إظهار/إخفاء قائمة المكتملة (العدد يبقى ظاهر دائمًا)
   const titleInputRef = useRef(null);
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -160,9 +161,21 @@ const TaskList = () => {
     return 'scheduled';
   };
 
+  // بداية الأسبوع الحالي (الأحد ٠٠:٠٠) — أساس تجميع "مكتملة هذا الأسبوع"
+  const getWeekStart = () => {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    start.setDate(start.getDate() - start.getDay());
+    return start;
+  };
+
   // المهام النشطة (غير المكتملة) مجمّعة
   const activeTasks = tasks.filter((t) => !t.is_completed);
-  const completedTasks = tasks.filter((t) => t.is_completed);
+  // مكتملة هذا الأسبوع فقط — القديمة تتدحرج تلقائيًا للأرشيف بمجرد ما يبدأ أسبوع جديد
+  const weekStart = getWeekStart();
+  const completedTasks = tasks.filter(
+    (t) => t.is_completed && t.completed_at && new Date(t.completed_at) >= weekStart
+  );
 
   const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c]));
 
@@ -224,7 +237,7 @@ const TaskList = () => {
     setShowNewCategoryModal(false);
   };
 
-  const isEmpty = tasks.length === 0;
+  const isEmpty = activeTasks.length === 0 && completedTasks.length === 0;
 
   return (
     <div className="task-container">
@@ -303,23 +316,28 @@ const TaskList = () => {
 
           {/* قسم المكتملة */}
           <div className="completed-section">
-            <h3 className="completed-title">مكتملة هذا الأسبوع ({completedTasks.length})</h3>
-            {completedTasks.length === 0 ? (
-              <div className="empty-sub-state">
-                <div className="empty-sub-icon"><Check size={22} strokeWidth={2.5} /></div>
-                <p className="empty-sub-title">لا توجد مهام مكتملة هذا الأسبوع</p>
-                <p className="empty-sub-text">المهام التي تكملها ستظهر هنا</p>
-              </div>
-            ) : (
-              completedTasks.map((task) => (
-                <div key={task.id} className="task-row completed">
-                  <span
-                    className="task-check checked"
-                    onClick={() => handleToggle(task.id)}
-                  >✓</span>
-                  <span className="task-title done">{task.title}</span>
+            <div className="completed-header" onClick={() => setShowCompleted((v) => !v)}>
+              <h3 className="completed-title">مكتملة هذا الأسبوع ({completedTasks.length})</h3>
+              <ChevronDown size={16} className={`completed-chevron ${showCompleted ? 'completed-chevron-open' : ''}`} />
+            </div>
+            {showCompleted && (
+              completedTasks.length === 0 ? (
+                <div className="empty-sub-state">
+                  <div className="empty-sub-icon"><Check size={22} strokeWidth={2.5} /></div>
+                  <p className="empty-sub-title">لا توجد مهام مكتملة هذا الأسبوع</p>
+                  <p className="empty-sub-text">المهام التي تكملها ستظهر هنا</p>
                 </div>
-              ))
+              ) : (
+                completedTasks.map((task) => (
+                  <div key={task.id} className="task-row completed">
+                    <span
+                      className="task-check checked"
+                      onClick={() => handleToggle(task.id)}
+                    >✓</span>
+                    <span className="task-title done">{task.title}</span>
+                  </div>
+                ))
+              )
             )}
           </div>
         </>

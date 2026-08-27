@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Settings as SettingsIcon, Archive as ArchiveIcon, Trash2 } from 'lucide-react';
+import { ArrowRight, Archive as ArchiveIcon } from 'lucide-react';
 import './Archive.css';
-import { getTasks, clearArchive } from '../api/tasks';
+import { getTasks, clearArchive, toggleTask } from '../api/tasks';
 import { getCategories } from '../api/categories';
 import ConfirmDialog from './ConfirmDialog';
 
@@ -57,6 +57,17 @@ const Archive = () => {
     }
   };
 
+  // فك الإكمال من الأرشيف: ترجع المهمة نشطة وتختفي من الأرشيف
+  const handleUncomplete = async (id) => {
+    try {
+      setError('');
+      await toggleTask(id);
+      load();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c]));
 
   const today = new Date();
@@ -105,14 +116,17 @@ const Archive = () => {
   return (
     <div className="archive-container">
       <div className="archive-header">
-        <ArrowRight size={22} className="archive-back" onClick={() => navigate('/tasks')} />
+        <ArrowRight size={22} className="archive-back" onClick={() => navigate('/settings')} />
         <div className="archive-title-block">
           <h2>الأرشيف</h2>
           <p className="archive-sub">
-            {tasks.length} مهام مؤرشفة · <span onClick={() => navigate('/settings')}>إعداد الأرشيف</span>
+            {tasks.length} مهام مؤرشفة
+            {tasks.length > 0 && (
+              <> · <span onClick={() => setConfirmingClear(true)}>إفراغ الأرشيف</span></>
+            )}
           </p>
         </div>
-        <SettingsIcon size={20} className="archive-settings" onClick={() => navigate('/settings')} />
+        <span style={{ width: 22 }} />
       </div>
 
       {error && <p className="archive-error">{error}</p>}
@@ -129,7 +143,7 @@ const Archive = () => {
                   const cat = categoryMap[task.category_id];
                   return (
                     <div key={task.id} className="archive-row">
-                      <span className="archive-check">✓</span>
+                      <span className="archive-check" onClick={() => handleUncomplete(task.id)} title="إرجاع المهمة نشطة">✓</span>
                       <span className="archive-task-title">{task.title}</span>
                       {cat && (
                         <span className="archive-cat" style={{ background: `${cat.color}22`, color: cat.color }}>
@@ -151,14 +165,8 @@ const Archive = () => {
             <ArchiveIcon size={34} strokeWidth={1.8} />
           </div>
           <h3 className="empty-title">الأرشيف فارغ</h3>
-          <p className="empty-text">تؤرشف المهام المكتملة تلقائيًا نهاية كل أسبوع وتظهر هنا.</p>
+          <p className="empty-text">تظهر هنا مهامك المكتملة تلقائيًا فور إنجازها.</p>
         </div>
-      )}
-
-      {tasks.length > 0 && (
-        <button className="archive-clear-link" onClick={() => setConfirmingClear(true)}>
-          <Trash2 size={14} /> إفراغ الأرشيف
-        </button>
       )}
 
       {confirmingClear && (

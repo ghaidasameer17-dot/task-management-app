@@ -26,14 +26,19 @@ export const sendVerificationCode = async (to, code) => {
 
 const PRIORITY_TRIANGLE = { urgent: '▲ ', medium: '▬ ', not_urgent: '▼ ' };
 
+// عنوان المهمة واسم الفئة يدخل المستخدم، فنهرب رموز HTML قبل حقنها بجسم الرسالة
+const escapeHtml = (str) =>
+  String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
 // إرسال تذكير بموعد مهمة (قبل الموعد بـ 24 ساعة)
 export const sendTaskReminder = async (to, task, categoryName) => {
   const dueDate = task.due_date ? new Date(task.due_date) : null;
   const dateStr = dueDate ? `${dueDate.getDate()}/${dueDate.getMonth() + 1}` : '';
   const timeStr = task.due_time ? task.due_time.slice(0, 5) : '';
   const priorityMark = PRIORITY_TRIANGLE[task.priority] || '';
+  const safeTitle = escapeHtml(task.title);
   const catBadge = categoryName
-    ? ` <span style="background:#E9F0FF;color:#2F6FED;border-radius:20px;padding:2px 10px;font-size:11px;">${categoryName}</span>`
+    ? ` <span style="background:#E9F0FF;color:#2F6FED;border-radius:20px;padding:2px 10px;font-size:11px;">${escapeHtml(categoryName)}</span>`
     : '';
 
   const html = `
@@ -43,7 +48,7 @@ export const sendTaskReminder = async (to, task, categoryName) => {
       <h2 style="margin:0 0 6px;font-size:19px;color:#1c1c1e;">تذكير بموعد مهمتك</h2>
       <p style="margin:0 0 20px;font-size:13px;color:#6c6c76;">اقترب موعد المهمة التالية:</p>
       <div style="background:#F4F5F8;border-radius:12px;padding:14px 16px;text-align:right;margin-bottom:20px;">
-        <div style="font-size:14px;color:#1c1c1e;font-weight:bold;">${priorityMark}${task.title}${catBadge}</div>
+        <div style="font-size:14px;color:#1c1c1e;font-weight:bold;">${priorityMark}${safeTitle}${catBadge}</div>
         <div style="font-size:12px;color:#6c6c76;margin-top:6px;">الموعد: ${dateStr}${timeStr ? ` ${timeStr}` : ''}</div>
       </div>
       <a href="http://localhost:5173/tasks" style="display:inline-block;background:#2F6FED;color:#fff;text-decoration:none;font-weight:bold;font-size:14px;border-radius:12px;padding:12px 28px;">فتح التطبيق</a>

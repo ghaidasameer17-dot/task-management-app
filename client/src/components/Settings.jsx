@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Bell, Moon, Globe, Archive, Tag, Lock, LogOut, ChevronLeft, Check } from 'lucide-react';
 import './Settings.css';
 import '../components/CategoryModals.css';
+import { forgotPassword } from '../api/auth';
 
 const LANGUAGES = [
   { code: 'ar', label: 'العربية' },
@@ -21,6 +22,7 @@ const Settings = () => {
   );
   const [language, setLanguage] = useState(localStorage.getItem('pref_language') || 'ar');
   const [showLanguagePopup, setShowLanguagePopup] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
@@ -48,6 +50,17 @@ const Settings = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/');
+  };
+
+  // نرسل رمز التحقق للبريد المعروف مباشرة وننتقل لشاشة إدخاله، بدون ما نطلب من المستخدم كتابة بريده من جديد
+  const handleChangePassword = async () => {
+    try {
+      setError('');
+      await forgotPassword({ email: user.email });
+      navigate('/reset-code', { state: { email: user.email } });
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -124,7 +137,7 @@ const Settings = () => {
 
       <div className="settings-section">
         <div className="settings-section-title">الحساب</div>
-        <div className="settings-row settings-row-link" onClick={() => navigate('/forgot-password')}>
+        <div className="settings-row settings-row-link" onClick={handleChangePassword}>
           <ChevronLeft size={16} className="settings-row-chevron" />
           <div className="settings-row-text">
             <div className="settings-row-title">تغيير كلمة المرور</div>
@@ -132,6 +145,8 @@ const Settings = () => {
           <Lock size={18} className="settings-row-icon" />
         </div>
       </div>
+
+      {error && <p className="settings-error">{error}</p>}
 
       <button className="logout-btn" onClick={handleLogout}>
         <LogOut size={16} /> تسجيل الخروج

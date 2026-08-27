@@ -12,6 +12,7 @@ import Settings from "./components/Settings";
 import Archive from "./components/Archive";
 import Categories from "./components/Categories";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AppShell from "./components/AppShell";
 
 function App() {
   return (
@@ -24,10 +25,10 @@ function App() {
       <Route path="/new-password" element={<NewPassword />} />
       <Route path="/password-changed" element={<PasswordChanged />} />
       <Route path="/account-verified" element={<AccountVerified />} />
-      <Route path="/tasks" element={<ProtectedRoute><TaskList /></ProtectedRoute>} />
+      <Route path="/tasks" element={<ProtectedRoute><AppShell><TaskList /></AppShell></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-      <Route path="/archive" element={<ProtectedRoute><Archive /></ProtectedRoute>} />
-      <Route path="/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
+      <Route path="/archive" element={<ProtectedRoute><AppShell><Archive /></AppShell></ProtectedRoute>} />
+      <Route path="/categories" element={<ProtectedRoute><AppShell><Categories /></AppShell></ProtectedRoute>} />
     </Routes>
   );
 }

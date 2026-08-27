@@ -6,6 +6,18 @@
   font-family: 'Cairo', sans-serif;
 }
 
+/* شكل بطاقة بس على شاشات الديسكتوب؛ الجوال يبقى بلا حواف كالتصميم الأصلي */
+@media (min-width: 600px) {
+  .task-container {
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 28px 32px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+}
+
 .task-row {
   display: flex;
   align-items: center;
@@ -93,7 +105,17 @@
   border-top: 1px solid #eee;
   margin-top: 20px; padding-top: 14px;
 }
-.completed-title { font-size: 14px; color: #6c6c76; margin-bottom: 10px; }
+.completed-title { font-size: 14px; color: #6c6c76; margin: 0; }
+.completed-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.completed-chevron { color: #9a9aa2; transition: transform 0.2s; flex-shrink: 0; }
+.completed-chevron-open { transform: rotate(180deg); }
 .task-check.checked {
   background: #2F6FED; border-color: #2F6FED; color: #fff;
   display: flex; align-items: center; justify-content: center;
@@ -181,6 +203,11 @@
   width: 100%;
 }
 .header-avatar { cursor: pointer; }
+/* الحساب الآن متاح من الشريط الجانبي على الديسكتوب، فنخفي أيقونة الحساب المكرّرة بالهيدر
+   (visibility بدل display عشان العنوان يضل بمنتصفه بدون ما يختل التوازن) */
+@media (min-width: 600px) {
+  .header-avatar { visibility: hidden; pointer-events: none; }
+}
 
 /* حالة القائمة الفارغة تمامًا */
 .empty-state {
@@ -344,7 +371,7 @@
   left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.2s;
 }
 .switch input:checked + .slider { background: #2F6FED; }
-.switch input:checked + .slider::before { transform: translateX(-14px); }
+.switch input:checked + .slider::before { transform: translateX(14px); }
 
 /* أيقونات تعديل/حذف عند المرور بالماوس (ديسكتوب) */
 .task-row-hoverable { position: relative; }

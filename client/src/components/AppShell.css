@@ -1,0 +1,14 @@
+.app-shell-main { width: 100%; }
+
+@media (min-width: 600px) {
+  .app-shell {
+    display: flex;
+    flex-direction: row-reverse;
+    min-height: 100vh;
+    background: #F0F2F5;
+  }
+  .app-shell-main {
+    flex: 1;
+    min-width: 0;
+  }
+}

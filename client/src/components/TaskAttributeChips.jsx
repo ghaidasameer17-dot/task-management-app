@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Check, Plus } from 'lucide-react';
 
 const priorityLabel = (p) => {
@@ -24,6 +24,11 @@ const TaskAttributeChips = ({
   const [showDate, setShowDate] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
   const [showTimeField, setShowTimeField] = useState(!!dueTime);
+
+  // لو الأب صفّر التاريخ والوقت (بعد إضافة مهمة مثلًا)، نطفي مفتاح الوقت بدل ما يعلق شغال فارغ
+  useEffect(() => {
+    if (!dueDate && !dueTime) setShowTimeField(false);
+  }, [dueDate, dueTime]);
 
   const categoryMap = Object.fromEntries(categories.map((c) => [c.id, c]));
   const todayInputValue = new Date().toISOString().slice(0, 10);

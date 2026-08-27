@@ -40,19 +40,20 @@ const Categories = () => {
   const systemCats = categories.filter((c) => c.is_system);
   const otherCats = categories.filter((c) => !c.is_system);
 
-  const handleCreated = (cat) => {
-    setCategories((prev) => [...prev, cat]);
+  // نعيد الجلب بدل تعديل الحالة محليًا عشان عدّاد مهام كل فئة (taskCounts) يبقى محدّث
+  const handleCreated = () => {
     setShowNewModal(false);
+    load();
   };
 
-  const handleSaved = (updated) => {
-    setCategories((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+  const handleSaved = () => {
     setEditingCat(null);
+    load();
   };
 
-  const handleDeleted = (id) => {
-    setCategories((prev) => prev.filter((c) => c.id !== id));
+  const handleDeleted = () => {
     setEditingCat(null);
+    load();
   };
 
   const confirmDeleteCategory = async () => {
@@ -60,8 +61,8 @@ const Categories = () => {
     try {
       setError('');
       await deleteCategory(deleteTarget.id);
-      setCategories((prev) => prev.filter((c) => c.id !== deleteTarget.id));
       setDeleteTarget(null);
+      load();
     } catch (err) {
       setError(err.message);
       setDeleteTarget(null);

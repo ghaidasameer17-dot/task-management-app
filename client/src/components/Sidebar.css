@@ -1,0 +1,132 @@
+/* الشريط الجانبي يظهر بس على شاشات الديسكتوب */
+.sidebar { display: none; }
+
+@media (min-width: 600px) {
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    flex-shrink: 0;
+    min-height: 100vh;
+    padding: 24px 16px;
+    box-sizing: border-box;
+    direction: rtl;
+    font-family: 'Cairo', sans-serif;
+    border-inline-start: 1px solid #E5E5EA;
+    background: #ffffff;
+  }
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1c1c1e;
+  padding: 4px 8px 20px;
+}
+.sidebar-brand-icon { color: #2F6FED; }
+
+.sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row-reverse;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #3c3c43;
+  font-size: 14px;
+  cursor: pointer;
+}
+.sidebar-nav-item:hover { background: #F4F5F8; }
+.sidebar-nav-item-active { background: #EAF1FE; color: #2F6FED; font-weight: 700; }
+
+.sidebar-bottom { position: relative; border-top: 1px solid #F0F0F2; padding-top: 12px; }
+.sidebar-user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-direction: row-reverse;
+  cursor: pointer;
+  min-width: 0;
+}
+.sidebar-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #2F6FED; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.sidebar-user-name {
+  font-size: 13px; color: #1c1c1e; font-weight: 700;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sidebar-icon-btns { display: flex; gap: 10px; color: #6c6c76; flex-shrink: 0; }
+.sidebar-icon-btns svg { cursor: pointer; }
+.sidebar-icon-btns svg:hover { color: #1c1c1e; }
+.sidebar-icon-active { color: #2F6FED !important; }
+
+/* قائمة الحساب المنبثقة، تفتح لأعلى فوق صف المستخدم */
+.sidebar-profile-popup {
+  position: absolute;
+  bottom: 46px;
+  right: 0;
+  left: 0;
+  background: #fff;
+  border: 1px solid #F0F0F2;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  z-index: 20;
+}
+.sidebar-profile-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-direction: row-reverse;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #3c3c43;
+  cursor: pointer;
+}
+.sidebar-profile-item:hover { background: #F4F5F8; }
+.sidebar-profile-toggle { justify-content: flex-end; cursor: default; }
+.sidebar-profile-toggle:hover { background: transparent; }
+.sidebar-profile-logout { color: #d70015; }
+.sidebar-profile-error { color: #d70015; font-size: 12px; padding: 2px 10px; margin: 0; }
+
+/* مفتاح تبديل صغير */
+.switch { position: relative; display: inline-block; width: 36px; height: 21px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: #E5E5EA; border-radius: 22px; transition: 0.2s;
+}
+.switch .slider::before {
+  content: ""; position: absolute; height: 15px; width: 15px;
+  left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.2s;
+}
+.switch input:checked + .slider { background: #2F6FED; }
+.switch input:checked + .slider::before { transform: translateX(15px); }
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  padding: 12px 8px;
+  border-bottom: 1px solid #F0F0F2;
+  cursor: pointer;
+  font-size: 14px;
+}
+.lang-option:last-child { border-bottom: none; }
+.lang-option svg { color: #2F6FED; }

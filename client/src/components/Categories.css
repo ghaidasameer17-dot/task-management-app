@@ -6,6 +6,18 @@
   font-family: 'Cairo', sans-serif;
 }
 
+/* شكل بطاقة بس على شاشات الديسكتوب؛ الجوال يبقى بلا حواف كالتصميم الأصلي */
+@media (min-width: 600px) {
+  .cat-container {
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 28px 32px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+}
+
 .cat-header {
   display: flex;
   align-items: center;
